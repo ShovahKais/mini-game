@@ -6,15 +6,15 @@
     <title>Сумасшедший Фокус-Квест 2.0 🌀 ЗВУК И СТИЛИ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Базовые переходы для современных кнопок */
+        /* Base transitions for buttons */
         .random-btn {
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease, box-shadow 0.2s ease;
             will-change: transform, opacity;
         }
         
-        /* --- ТЕМАТИЧЕСКИЕ СТИЛИ КНОПОК --- */
+        /* --- THEMATIC STYLES --- */
         
-        /* 1. Стиль Windows 95 (Ретро-физика) */
+        /* 1. Windows 95 */
         .theme-win95 {
             background-color: #c0c0c0 !important;
             color: #000000 !important;
@@ -41,7 +41,7 @@
             outline-offset: -6px !important;
         }
 
-        /* 2. Стиль Windows XP (Glossy Luna) */
+        /* 2. Windows XP */
         .theme-winxp {
             background: linear-gradient(to bottom, #4489e3 0%, #1c52bd 12%, #1b4fb6 45%, #052f9c 55%, #1d5ed5 100%) !important;
             border: 1.5px solid #002c85 !important;
@@ -54,7 +54,7 @@
             box-shadow: inset 0 2px 2px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.3) !important;
         }
         .theme-winxp:hover {
-            box-shadow: inset 0 0 8px #ff9c00, 0 2px 4px rgba(0,0,0,0.3) !important; /* Оранжевое свечение наведения XP */
+            box-shadow: inset 0 0 8px #ff9c00, 0 2px 4px rgba(0,0,0,0.3) !important;
         }
         .theme-winxp:active {
             background: linear-gradient(to bottom, #1d5ed5 0%, #052f9c 45%, #1b4fb6 100%) !important;
@@ -64,7 +64,7 @@
             outline-offset: -3px !important;
         }
 
-        /* 3. Стиль macOS Aqua (Classic Gel) */
+        /* 3. macOS Aqua */
         .theme-aqua {
             background: linear-gradient(to bottom, #98d1f7 0%, #469fe0 50%, #166aa8 51%, #2c93d9 100%) !important;
             border: 1.5px solid #1c5780 !important;
@@ -80,7 +80,7 @@
             background: linear-gradient(to bottom, #2c93d9 0%, #166aa8 50%, #469fe0 100%) !important;
         }
 
-        /* 4. Стиль Windows 8/10 (Metro Flat) */
+        /* 4. Windows Metro */
         .theme-metro {
             background-color: #0078d7 !important;
             color: #ffffff !important;
@@ -103,7 +103,7 @@
             box-shadow: none !important;
         }
 
-        /* 5. Стиль iOS (Тонкое стекло) */
+        /* 5. iOS Modern */
         .theme-ios {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
             background: rgba(255, 255, 255, 0.08) !important;
@@ -124,7 +124,7 @@
             background: rgba(255, 255, 255, 0.15) !important;
         }
 
-        /* 6. Стиль Android (Material You) */
+        /* 6. Android Material */
         .theme-material {
             background-color: #d2e4ff !important;
             color: #041e49 !important;
@@ -144,7 +144,7 @@
             background-color: #b0ceff !important;
         }
 
-        /* 7. Стиль AmigaOS Workbench (16-bit) */
+        /* 7. AmigaOS Workbench */
         .theme-amiga {
             background-color: #0055aa !important;
             color: #ffffff !important;
@@ -165,7 +165,7 @@
             border-right: 4px solid #ffffff !important;
         }
 
-        /* 8. Стиль Cyber Neon */
+        /* 8. Cyber Neon */
         .theme-neon:focus {
             outline: 5px solid #ffffff;
             outline-offset: 4px;
@@ -211,6 +211,15 @@
         .vortex-active {
             animation: pulse-void 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
+
+        /* GIF Fallback Helper Class */
+        .gif-loading {
+            background-color: rgba(30, 41, 59, 0.5);
+            position: relative;
+        }
+        .gif-hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans overflow-x-hidden selection:bg-purple-500 transition-transform duration-100">
@@ -237,7 +246,7 @@
 
     <!-- Игровое поле -->
     <main class="relative w-full h-[8000px] pt-28 pb-12 transition-all duration-300 will-change-transform" id="canvas">
-        <!-- Кнопки и мины генерируются динамически -->
+        <!-- Кнопки, фоновые гифки и мины генерируются динамически -->
     </main>
 
     <!-- Оптимизированный оверлей Сингулярности -->
@@ -248,7 +257,13 @@
     <!-- Модальное окно Квантовой Аномалии -->
     <div id="anomaly-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
         <div class="bg-slate-900 border border-purple-500/50 p-6 md:p-8 rounded-3xl max-w-md w-full text-center shadow-2xl shadow-purple-500/10 transform scale-95 transition-transform duration-300" id="anomaly-card">
-            <div class="text-5xl mb-3 animate-pulse">🌀⚡</div>
+            
+            <!-- Контейнер для GIF-аномалии -->
+            <div class="relative w-32 h-32 mx-auto mb-3 rounded-2xl overflow-hidden flex items-center justify-center bg-slate-950/50 border border-purple-500/20">
+                <img id="anomaly-gif" class="w-full h-full object-cover gif-hidden" alt="Аномалия" onerror="this.classList.add('gif-hidden'); document.getElementById('anomaly-emoji-fallback').classList.remove('hidden');" onload="this.classList.remove('gif-hidden'); document.getElementById('anomaly-emoji-fallback').classList.add('hidden');">
+                <div id="anomaly-emoji-fallback" class="text-5xl animate-pulse">🌀⚡</div>
+            </div>
+
             <h2 class="text-2xl font-black bg-gradient-to-r from-purple-500 via-pink-500 to-red-400 bg-clip-text text-transparent mb-1">
                 Квантовая Аномалия!
             </h2>
@@ -289,7 +304,13 @@
     <!-- Модальное окно победы -->
     <div id="victory-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-350">
         <div class="bg-slate-900 border border-purple-500/40 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl transform scale-95 transition-transform duration-350" id="modal-card">
-            <div class="text-6xl mb-4 animate-bounce">🏆</div>
+            
+            <!-- Контейнер для праздничной GIF-ки победы -->
+            <div class="relative w-40 h-40 mx-auto mb-4 rounded-2xl overflow-hidden flex items-center justify-center bg-slate-950/50 border border-yellow-500/20">
+                <img id="victory-gif" class="w-full h-full object-cover gif-hidden" alt="Победа!" onerror="this.classList.add('gif-hidden'); document.getElementById('victory-emoji-fallback').classList.remove('hidden');" onload="this.classList.remove('gif-hidden'); document.getElementById('victory-emoji-fallback').classList.add('hidden');">
+                <div id="victory-emoji-fallback" class="text-6xl animate-bounce">🏆</div>
+            </div>
+
             <h2 class="text-3xl font-black bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent mb-2">
                 Победа!
             </h2>
@@ -311,9 +332,14 @@
         </div>
     </div>
 
-    <!-- Всплывающий оверлей для взрыва -->
-    <div id="explosion-alert" class="fixed top-1/4 left-1/2 -translate-x-1/2 bg-red-600 text-white font-black text-center text-lg px-6 py-3 rounded-xl border-2 border-white shadow-2xl z-50 pointer-events-none transform scale-90 opacity-0 transition-all duration-200">
-        💥 БА-БАХ!
+    <!-- Всплывающий оверлей для взрыва с поддержкой GIF -->
+    <div id="explosion-alert" class="fixed top-1/4 left-1/2 -translate-x-1/2 bg-red-600 text-white font-black text-center text-lg px-6 py-4 rounded-2xl border-2 border-white shadow-2xl z-50 pointer-events-none transform scale-90 opacity-0 transition-all duration-200 max-w-xs sm:max-w-md w-full overflow-hidden flex flex-col items-center gap-3">
+        <!-- Контейнер для GIF взрыва -->
+        <div class="w-24 h-24 rounded-xl overflow-hidden bg-black/40 border border-white/20 flex items-center justify-center relative">
+            <img id="explosion-gif" class="w-full h-full object-cover gif-hidden" alt="Взрыв!" onerror="this.classList.add('gif-hidden'); document.getElementById('explosion-emoji-fallback').classList.remove('hidden');" onload="this.classList.remove('gif-hidden'); document.getElementById('explosion-emoji-fallback').classList.add('hidden');">
+            <div id="explosion-emoji-fallback" class="text-4xl">💥</div>
+        </div>
+        <span id="explosion-text">💥 БА-БАХ!</span>
     </div>
 
     <footer id="game-footer" class="bg-slate-900 py-10 border-t border-slate-800 text-center text-xs text-slate-500 transition-all duration-300 will-change-transform">
@@ -322,6 +348,16 @@
 
     <!-- Основной скрипт игры -->
     <script>
+        // === НАСТРОЙКИ GIF-РЕСУРСОВ ===
+        // Укажите относительные пути к файлам в вашем репозитории GitHub.
+        // Вы можете заменить эти значения на полные URL-ссылки (например, 'https://media.giphy.com/.../giphy.gif')
+        const GAME_GIFS = {
+            explosion: 'assets/explosion.gif', // Срабатывает при подрыве на мине
+            anomaly: 'assets/anomaly.gif',     // Крутится в квантовой аномалии
+            victory: 'assets/victory.gif',     // Показывается на экране победы
+            bgGlitch: 'assets/bg-glitch.gif'   // Разбросаны по заднему фону страницы
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             const canvas = document.getElementById('canvas');
             const jumpCounterEl = document.getElementById('jump-counter');
@@ -329,11 +365,22 @@
             const startBtn = document.getElementById('start-btn');
             const counterBox = document.getElementById('counter-box');
             const explosionAlert = document.getElementById('explosion-alert');
+            const explosionText = document.getElementById('explosion-text');
             
             const blackHoleOverlay = document.getElementById('black-hole-overlay');
             const vortexCore = document.getElementById('vortex-core');
             const gameHeader = document.getElementById('game-header');
             const gameFooter = document.getElementById('game-footer');
+
+            // GIF Elements
+            const explosionGifImg = document.getElementById('explosion-gif');
+            const anomalyGifImg = document.getElementById('anomaly-gif');
+            const victoryGifImg = document.getElementById('victory-gif');
+
+            // Установка дефолтных источников для гифок
+            explosionGifImg.src = GAME_GIFS.explosion;
+            anomalyGifImg.src = GAME_GIFS.anomaly;
+            victoryGifImg.src = GAME_GIFS.victory;
 
             // Аномальные вопросы
             const anomalyModal = document.getElementById('anomaly-modal');
@@ -355,6 +402,7 @@
             
             const TOTAL_BUTTONS = 250;
             const TOTAL_MINES = 50; 
+            const TOTAL_BG_GIFS = 12; // Количество фоновых декоративных гифок на странице
             const PAGE_HEIGHT = 8000;
             
             const VOID_BUTTON_NUMBERS = [2, 13, 19];
@@ -462,6 +510,25 @@
                     });
                 });
 
+                // Генерация фоновых глитчевых гифок на холсте
+                for (let g = 0; g < TOTAL_BG_GIFS; g++) {
+                    const bgGif = document.createElement('img');
+                    bgGif.src = GAME_GIFS.bgGlitch;
+                    bgGif.alt = "Глитч-декор";
+                    bgGif.className = "absolute pointer-events-none opacity-[0.05] hover:opacity-[0.15] transition-opacity duration-300 z-0 select-none max-w-[200px] max-h-[200px] object-contain";
+                    
+                    const topPos = Math.floor(Math.random() * (PAGE_HEIGHT - 800)) + 600; 
+                    const leftPos = Math.floor(Math.random() * 80) + 5;
+                    
+                    bgGif.style.top = `${topPos}px`;
+                    bgGif.style.left = `${leftPos}%`;
+                    
+                    // Если гифка отсутствует, браузер просто скроет ее
+                    bgGif.onerror = function() { this.style.display = 'none'; };
+                    
+                    canvas.appendChild(bgGif);
+                }
+
                 // 1. Генерация кнопок
                 for (let i = 0; i < TOTAL_BUTTONS; i++) {
                     const btnNumber = i + 1; 
@@ -485,50 +552,42 @@
                     let buttonThemeType = '';
 
                     if (themeRand < 0.12) {
-                        // 1. Windows 95
                         buttonThemeType = 'win95';
                         const win95Paddings = isVertical ? 'py-4 px-2' : 'py-2 px-4';
                         themeClass = 'theme-win95';
                         buttonStyleClasses = `${win95Paddings}`;
                     } else if (themeRand < 0.25) {
-                        // 2. Windows XP (Luna)
                         buttonThemeType = 'winxp';
                         const winxpPaddings = isVertical ? 'py-5 px-3 text-[11px]' : 'py-2.5 px-5 text-xs';
                         themeClass = 'theme-winxp';
                         buttonStyleClasses = `${winxpPaddings}`;
                     } else if (themeRand < 0.38) {
-                        // 3. macOS Aqua
                         buttonThemeType = 'aqua';
                         const aquaPaddings = isVertical ? 'py-6 px-3.5 text-[10px]' : 'py-2 px-6 text-xs';
                         themeClass = 'theme-aqua';
                         buttonStyleClasses = `${aquaPaddings}`;
                     } else if (themeRand < 0.50) {
-                        // 4. Windows Metro (Flat)
                         buttonThemeType = 'metro';
                         const metroPaddings = isVertical ? 'py-4 px-2 font-semibold' : 'py-2 px-4.5 font-semibold';
                         themeClass = 'theme-metro';
                         buttonStyleClasses = `${metroPaddings}`;
                     } else if (themeRand < 0.62) {
-                        // 5. iOS Modern
                         buttonThemeType = 'ios';
                         const iosColor = iosTextColors[Math.floor(Math.random() * iosTextColors.length)];
                         const size = isVertical ? verticalSizes[Math.floor(Math.random() * verticalSizes.length)] : horizontalSizes[Math.floor(Math.random() * horizontalSizes.length)];
                         themeClass = 'theme-ios';
                         buttonStyleClasses = `${iosColor} ${size.pad}`;
                     } else if (themeRand < 0.75) {
-                        // 6. Android (Material You)
                         buttonThemeType = 'material';
                         const size = isVertical ? verticalSizes[Math.floor(Math.random() * verticalSizes.length)] : horizontalSizes[Math.floor(Math.random() * horizontalSizes.length)];
                         themeClass = 'theme-material';
                         buttonStyleClasses = `${size.pad}`;
                     } else if (themeRand < 0.88) {
-                        // 7. AmigaOS Workbench
                         buttonThemeType = 'amiga';
                         const amigaPaddings = isVertical ? 'py-4 px-2.5' : 'py-2 px-5';
                         themeClass = 'theme-amiga';
                         buttonStyleClasses = `${amigaPaddings}`;
                     } else {
-                        // 8. Cyber Neon (Cyberpunk)
                         buttonThemeType = 'neon';
                         const color = neonColors[Math.floor(Math.random() * neonColors.length)];
                         const size = isVertical ? verticalSizes[Math.floor(Math.random() * verticalSizes.length)] : horizontalSizes[Math.floor(Math.random() * horizontalSizes.length)];
@@ -544,8 +603,7 @@
 
                     let classes = `random-btn shadow-md cursor-pointer transform ${themeClass} ${buttonStyleClasses}`;
                     
-                    // Логика выбора контента для кнопки:
-                    // 33% - только текст, 33% - только смайлик, 34% - и то и другое
+                    // Логика выбора контента для кнопки
                     const contentRand = Math.random();
                     let btnContent = "";
                     if (contentRand < 0.33) {
@@ -573,7 +631,6 @@
                         const dropdownMenu = document.createElement('div');
                         dropdownMenu.className = "dropdown-menu absolute hidden mt-2 left-0 w-max z-50 flex flex-col gap-1 transition-all duration-150";
                         
-                        // Кастомные стили контекстных меню под соответствующую ОС
                         if (buttonThemeType === 'win95' || buttonThemeType === 'winxp') { 
                             dropdownMenu.className += " bg-[#c0c0c0] border-t-white border-l-white border-b-black border-r-black border-2 p-1 text-black font-mono"; 
                         } else if (buttonThemeType === 'aqua' || buttonThemeType === 'ios') { 
@@ -622,7 +679,6 @@
                             subBtn.addEventListener('click', (e) => {
                                 e.stopPropagation();
                                 dropdownMenu.classList.add('hidden');
-                                // ЗВУК: клик по суб-меню
                                 playSoundForTheme(buttonThemeType, 0.5); 
                                 triggerJump(i, false);
                             });
@@ -635,7 +691,6 @@
                             if (isCollapsing) return;
                             e.stopPropagation();
                             
-                            // ЗВУК: клик по главной кнопке меню
                             playSoundForTheme(buttonThemeType); 
 
                             const isMenuHidden = dropdownMenu.classList.contains('hidden');
@@ -646,7 +701,6 @@
                         btn.addEventListener('click', () => {
                             if (isCollapsing) return;
                             
-                            // ЗВУК: обычный клик
                             playSoundForTheme(buttonThemeType); 
 
                             if (isVoidAnomaly) { openAnomalyModal(); } 
@@ -690,7 +744,6 @@
 
                     mine.addEventListener('click', () => {
                         if (isCollapsing) return;
-                        // ЗВУК: взрыв мины
                         playExplosionSound(); 
                         triggerJump(m, true);
                     });
@@ -726,7 +779,7 @@
                     jumpCount++;
                     jumpCounterEl.textContent = jumpCount;
 
-                    updateStartButtonState(); // Проверка на квантовый перегрев
+                    updateStartButtonState();
 
                     if (jumpCount === victoryTarget && !isWon) {
                         showVictoryWindow();
@@ -737,7 +790,7 @@
             }
 
             function handleExplosion() {
-                // Увеличен шанс до 25% (0.25) для более частого выпадения "удачного" бонуса
+                // Шанс 25% на "обратный взрыв" (удачу)
                 if (Math.random() < 0.25) {
                     const bonus = Math.floor(Math.random() * 4) + 1;
                     jumpCount = Math.min(victoryTarget, jumpCount + bonus);
@@ -749,8 +802,12 @@
                     relocateMines();
                     updateStartButtonState();
 
-                    explosionAlert.innerHTML = `✨ УДАЧА! Прыжки +${bonus} & Цель -${bonus}! 🍀`;
-                    // Очищаем цвета и ставим фиолетовый
+                    explosionText.innerHTML = `🍀 УДАЧА! Прыжки +${bonus} & Цель -${bonus}! 🍀`;
+                    
+                    // Перезагружаем GIF взрыва (сбрасываем кэш, чтобы проигралась сначала)
+                    explosionGifImg.src = '';
+                    explosionGifImg.src = GAME_GIFS.explosion;
+
                     explosionAlert.classList.remove('hidden', 'bg-red-600', 'bg-emerald-600', 'opacity-0', 'scale-90');
                     explosionAlert.classList.add('bg-purple-600', 'opacity-100', 'scale-100');
                     
@@ -758,7 +815,7 @@
                         explosionAlert.classList.remove('opacity-100', 'scale-100');
                         explosionAlert.classList.add('opacity-0', 'scale-90');
                         setTimeout(() => explosionAlert.classList.add('hidden'), 200);
-                    }, 1200);
+                    }, 1500);
                     return;
                 }
 
@@ -770,7 +827,7 @@
                 targetCounterEl.textContent = victoryTarget;
 
                 relocateMines();
-                updateStartButtonState(); // Обновление кнопки Хаоса при взрыве
+                updateStartButtonState();
 
                 document.body.classList.add('shake-active');
                 setTimeout(() => document.body.classList.remove('shake-active'), 250);
@@ -778,8 +835,12 @@
                 counterBox.classList.add('damage-flash');
                 setTimeout(() => counterBox.classList.remove('damage-flash'), 400);
 
-                explosionAlert.innerHTML = `💥 БА-БАХ! ПРЫЖКИ -${penalty} & ЦЕЛЬ +${penalty}! 💣`;
-                // Очищаем цвета и ставим красный
+                explosionText.innerHTML = `💥 БА-БАХ! ПРЫЖКИ -${penalty} & ЦЕЛЬ +${penalty}! 💣`;
+                
+                // Перезапуск GIF для повторного воспроизведения
+                explosionGifImg.src = '';
+                explosionGifImg.src = GAME_GIFS.explosion;
+
                 explosionAlert.classList.remove('hidden', 'bg-purple-600', 'bg-emerald-600', 'opacity-0', 'scale-90');
                 explosionAlert.classList.add('bg-red-600', 'opacity-100', 'scale-100');
                 
@@ -787,7 +848,7 @@
                     explosionAlert.classList.remove('opacity-100', 'scale-100');
                     explosionAlert.classList.add('opacity-0', 'scale-90');
                     setTimeout(() => explosionAlert.classList.add('hidden'), 200);
-                }, 1200);
+                }, 1500);
             }
 
             function startAnomalyTimer() {
@@ -819,7 +880,6 @@
                 if (forceStabilize) {
                     anomalyFeedback.textContent = "⏱ Время истекло! Квантовое поле случайно стабилизировалось.";
                     anomalyFeedback.classList.add('text-emerald-400');
-                    // ЗВУК: Успех
                     playSuccessSound(); 
 
                     setTimeout(() => {
@@ -829,7 +889,6 @@
                 } else {
                     anomalyFeedback.textContent = "⏱ Время истекло! Гравитационный коллапс!";
                     anomalyFeedback.classList.add('text-red-500');
-                    // ЗВУК: Ошибка
                     playErrorSound(); 
 
                     setTimeout(() => {
@@ -840,8 +899,11 @@
             }
 
             function openAnomalyModal() {
-                // ЗВУК: Открытие аномалии
                 playAnomalyOpenSound(); 
+
+                // Обновляем GIF аномалии при открытии
+                anomalyGifImg.src = '';
+                anomalyGifImg.src = GAME_GIFS.anomaly;
 
                 activeQuestion = anomalyQuestions[Math.floor(Math.random() * anomalyQuestions.length)];
                 correctOptionIndex = Math.floor(Math.random() * 2);
@@ -869,13 +931,11 @@
                 if (selectedIndex === correctOptionIndex) {
                     anomalyFeedback.textContent = "✓ Верно! Квантовое поле стабилизировано.";
                     anomalyFeedback.classList.add('text-emerald-400');
-                    // ЗВУК: Успех
                     playSuccessSound(); 
                     setTimeout(() => { closeAnomaly(); triggerJump(-1, false); }, 1500);
                 } else {
                     anomalyFeedback.textContent = "❌ Ошибка! Гравитация нестабильна!";
                     anomalyFeedback.classList.add('text-red-500');
-                    // ЗВУК: Ошибка
                     playErrorSound(); 
                     setTimeout(() => { closeAnomaly(); triggerBlackHole(); }, 1500);
                 }
@@ -891,11 +951,11 @@
             }
 
             anomalyOpt1Btn.addEventListener('click', () => {
-                playCyberSound(); // Клик в меню аномалии
+                playCyberSound(); 
                 checkAnomalyAnswer(0);
             });
             anomalyOpt2Btn.addEventListener('click', () => {
-                playCyberSound(); // Клик в меню аномалии
+                playCyberSound(); 
                 checkAnomalyAnswer(1);
             });
 
@@ -904,7 +964,6 @@
                 startBtn.style.pointerEvents = 'none';
                 blackHoleOverlay.classList.remove('hidden');
                 
-                // ЗВУК: затягивание
                 playBlackHoleSound(); 
 
                 canvas.classList.add('implode-active');
@@ -918,7 +977,7 @@
                     isWon = false;
                     generateNewTarget();
                     buildGameElements();
-                    updateStartButtonState(); // Сброс состояния кнопки Хаоса
+                    updateStartButtonState(); 
                     canvas.classList.remove('implode-active');
                     gameHeader.classList.remove('implode-active');
                     gameFooter.classList.remove('implode-active');
@@ -933,8 +992,11 @@
             function showVictoryWindow() {
                 isWon = true;
                 victoryTargetModal.textContent = victoryTarget;
-                // ЗВУК: Победный фанфар
                 playVictorySound(); 
+
+                // Обновляем GIF победы
+                victoryGifImg.src = '';
+                victoryGifImg.src = GAME_GIFS.victory;
 
                 const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
                 jokeTextEl.innerHTML = randomJoke.replace(/\n/g, '<br>');
@@ -959,27 +1021,25 @@
                 isWon = false;
                 generateNewTarget();
                 buildGameElements();
-                updateStartButtonState(); // Сброс состояния
+                updateStartButtonState(); 
                 modal.classList.add('opacity-0');
                 modalCard.classList.add('scale-95');
                 setTimeout(() => { modal.classList.add('hidden'); triggerJump(-1, false); }, 350);
             });
 
-            // Обработка кнопки "Начать Хаос" с учетом квантового перегрева
             startBtn.addEventListener('click', () => {
                 if (!isCollapsing) {
-                    initAudioContext(); // Убеждаемся, что аудио контекст запущен
+                    initAudioContext(); 
 
-                    // Если прыжков 10 и более, добавляем высокий риск подрыва (75%)
                     const isHighRisk = jumpCount >= 10;
                     const didBlowUp = isHighRisk && (Math.random() < 0.75);
 
                     if (didBlowUp) {
                         playExplosionSound();
-                        triggerJump(-1, true); // Прыжок в мину
+                        triggerJump(-1, true); 
                     } else {
                         playChaosStartSound(); 
-                        triggerJump(-1, false); // Обычный безопасный хаотический прыжок
+                        triggerJump(-1, false); 
                     }
                 }
             });
@@ -988,10 +1048,8 @@
     
     <!-- Скрипт Web Audio API -->
     <script>
-        // Создаем аудио контекст (синглтон)
         let audioCtx = null;
 
-        // Инициализация контекста (нужна после первого клика пользователя)
         function initAudioContext() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1001,29 +1059,25 @@
             }
         }
 
-        // Глобальный слушатель для инициализации звука при первом взаимодействии
         document.addEventListener('click', initAudioContext, { once: true });
         document.getElementById('start-btn').addEventListener('click', initAudioContext, { once: true });
 
-        // Утилита для создания GainNode (громкости) с затуханием
         function createGain(startTime, duration, peakVolume = 0.3) {
             const gainNode = audioCtx.createGain();
             gainNode.gain.setValueAtTime(0, startTime);
-            gainNode.gain.linearRampToValueAtTime(peakVolume, startTime + 0.002); // Быстрая атака
-            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration); // Экспоненциальное затухание
+            gainNode.gain.linearRampToValueAtTime(peakVolume, startTime + 0.002); 
+            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration); 
             return gainNode;
         }
 
-        // --- РАЗНЫЕ ТИПЫ РЕАЛИСТИЧНЫХ КЛИКОВ ---
+        // --- РАЗНЫЕ ТИПЫ КЛИКОВ ---
 
-        // 1. Windows 95 / XP / Amiga / Metro: Ретро-клик тактильной мышки (Шумный щелчок)
         function playWin95Sound(volumeScale = 1) {
             if (!audioCtx) return;
             const now = audioCtx.currentTime;
 
-            // Металлическая защелка (фильтрованный микро-шум)
             const noise = audioCtx.createBufferSource();
-            const bufferSize = audioCtx.sampleRate * 0.015; // 15ms шума
+            const bufferSize = audioCtx.sampleRate * 0.015; 
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) {
@@ -1040,7 +1094,6 @@
             noiseGain.gain.setValueAtTime(0.07 * volumeScale, now);
             noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.012);
 
-            // Основной глухой удар пластика кнопки
             const osc = audioCtx.createOscillator();
             osc.type = 'sine';
             osc.frequency.setValueAtTime(140, now);
@@ -1063,7 +1116,6 @@
             osc.stop(now + 0.018);
         }
 
-        // 2. iOS / Android: Минималистичный физический haptic-клик (Ультракороткий плотный толчок)
         function playIosSound(volumeScale = 1) {
             if (!audioCtx) return;
             const now = audioCtx.currentTime;
@@ -1084,12 +1136,10 @@
             osc.stop(now + 0.015);
         }
 
-        // 3. Cyber Neon / macOS Aqua: Звонкий клик дорогого оптического микропереключателя
         function playCyberSound(volumeScale = 1) {
             if (!audioCtx) return;
             const now = audioCtx.currentTime;
 
-            // Высокий щелчок мембраны
             const osc = audioCtx.createOscillator();
             osc.type = 'sine';
             osc.frequency.setValueAtTime(2200, now);
@@ -1099,9 +1149,8 @@
             gain.gain.setValueAtTime(0.15 * volumeScale, now);
             gain.gain.exponentialRampToValueAtTime(0.001, now + 0.008);
 
-            // Кристальный металлический звон
             const noise = audioCtx.createBufferSource();
-            const bufferSize = audioCtx.sampleRate * 0.008; // 8ms
+            const bufferSize = audioCtx.sampleRate * 0.008; 
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) {
@@ -1130,7 +1179,6 @@
             noise.stop(now + 0.008);
         }
 
-        // Диспетчер
         function playSoundForTheme(theme, volumeScale = 1) {
             switch(theme) {
                 case 'win95': 
